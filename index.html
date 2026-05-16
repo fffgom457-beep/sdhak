@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+    <title>Chance | Telegram Premium</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--tg-theme-bg-color, #0a0c16);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Roboto, Helvetica, sans-serif;
+            color: var(--tg-theme-text-color, #ffffff);
+        }
+
+        /* Premium градиенты */
+        :root {
+            --premium-gold: linear-gradient(135deg, #FFD700, #FFA500, #FF8C00);
+            --premium-purple: linear-gradient(135deg, #9b59b6, #e67e22);
+            --premium-blue: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        .app {
+            max-width: 450px;
+            margin: 0 auto;
+            background: var(--tg-theme-bg-color, #0f111a);
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Premium Header */
+        .header {
+            padding: 16px 18px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .balance {
+            background: var(--premium-gold);
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-weight: bold;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #1a1a2e;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .menu-icon {
+            background: var(--glass-bg);
+            padding: 8px 12px;
+            border-radius: 40px;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Premium контент */
+        .content {
+            padding: 20px 16px;
+            padding-bottom: 80px;
+        }
+
+        /* Premium Free Case Card */
+        .free-case {
+            background: linear-gradient(135deg, rgba(30, 42, 58, 0.8), rgba(15, 23, 40, 0.9));
+            backdrop-filter: blur(10px);
+            border-radius: 28px;
+            padding: 20px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .free-case-timer {
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(8px);
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-size: 15px;
+            font-weight: 600;
+            color: #FFD700;
+        }
+
+        /* Premium Section Title */
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 24px 0 16px;
+            font-weight: 700;
+            font-size: 18px;
+            background: var(--premium-blue);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* Premium Cases Grid */
+        .cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 14px;
+        }
+
+        .case-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 16px 12px;
+            text-align: center;
+            border: 1px solid var(--glass-border);
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .case-card:hover {
+            transform: translateY(-4px);
+            border-color: #FFD700;
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.2);
+        }
+
+        .case-img tg-emoji {
+            font-size: 52px;
+        }
+
+        .case-price {
+            background: var(--premium-gold);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: bold;
+            margin-top: 8px;
+        }
+
+        /* Premium PvP Card */
+        .pvp-card {
+            background: linear-gradient(145deg, rgba(26, 31, 48, 0.9), rgba(17, 22, 36, 0.95));
+            backdrop-filter: blur(10px);
+            border-radius: 28px;
+            padding: 20px;
+            margin: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid var(--glass-border);
+        }
+
+        .bet-chip {
+            background: linear-gradient(135deg, #2a2f4a, #1e2238);
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.1s;
+            border: 1px solid rgba(255,215,0,0.3);
+        }
+
+        .bet-chip:active {
+            transform: scale(0.95);
+            background: #FFD700;
+            color: #1a1a2e;
+        }
+
+        /* Premium Button */
+        .premium-btn {
+            background: var(--premium-purple);
+            width: 100%;
+            padding: 16px;
+            border-radius: 60px;
+            font-weight: bold;
+            font-size: 18px;
+            border: none;
+            color: white;
+            cursor: pointer;
+            transition: 0.15s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .premium-btn:active {
+            transform: scale(0.97);
+            opacity: 0.9;
+        }
+
+        /* Premium Bottom Nav */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            max-width: 450px;
+            width: 100%;
+            background: rgba(11, 14, 24, 0.95);
+            backdrop-filter: blur(20px);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 16px 24px;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .nav-item {
+            text-align: center;
+            font-size: 11px;
+            color: #6b728e;
+            cursor: pointer;
+            transition: 0.1s;
+            padding: 6px 12px;
+            border-radius: 40px;
+        }
+
+        .nav-item.active {
+            background: var(--premium-gold);
+            color: #1a1a2e;
+            font-weight: bold;
+        }
+
+        .nav-icon tg-emoji {
+            font-size: 24px;
+        }
+
+        /* Premium Inventory */
+        .inventory-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .nft-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 16px;
+            width: calc(50% - 6px);
+            text-align: center;
+            border: 1px solid var(--glass-border);
+        }
+
+        /* Premium Referral */
+        .referral-link {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            padding: 14px 18px;
+            border-radius: 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 16px 0;
+            border: 1px solid var(--glass-border);
+        }
+
+        /* Premium Leaders */
+        .leader-item {
+            display: flex;
+            justify-content: space-between;
+            background: var(--glass-bg);
+            backdrop-filter: blur(8px);
+            padding: 14px 18px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .screen {
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        tg-emoji {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        /* Premium анимации */
+        @keyframes premiumGlow {
+            0% { filter: drop-shadow(0 0 0px #FFD700); }
+            100% { filter: drop-shadow(0 0 8px #FFD700); }
+        }
+
+        .premium-glow {
+            animation: premiumGlow 1.5s ease-in-out infinite alternate;
+        }
+    </style>
+</head>
+<body>
+<div class="app">
+    <div class="header">
+        <div class="balance premium-glow">
+            <tg-emoji emoji-id="5436916549701234552">⭐</tg-emoji> 1,250
+        </div>
+        <div class="menu-icon">
+            <tg-emoji emoji-id="5436916549701234552">⚡</tg-emoji>
+        </div>
+    </div>
+
+    <!-- ГЛАВНАЯ -->
+    <div id="mainScreen" class="screen active">
+        <div class="content">
+            <div class="free-case">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <tg-emoji emoji-id="5436916549701234552">🎁</tg-emoji>
+                    <div>
+                        <tg-emoji emoji-id="5436916549701234552">🔥</tg-emoji> Бесплатный кейс<br>
+                        <span style="font-size: 12px; opacity: 0.7;">раз в 24 часа</span>
+                    </div>
+                </div>
+                <div class="free-case-timer" id="freeTimer">
+                    <tg-emoji emoji-id="5436916549701234552">⏳</tg-emoji> 23:45:12
+                </div>
+            </div>
+
+            <div class="section-title">
+                <span><tg-emoji emoji-id="5436916549701234552">🔥</tg-emoji> Популярные кейсы</span>
+                <span><tg-emoji emoji-id="5436916549701234552">👉</tg-emoji></span>
+            </div>
+            <div class="cases-grid" id="casesGrid"></div>
+
+            <div class="pvp-card">
+                <div>
+                    <strong><tg-emoji emoji-id="5436916549701234552">⚔️</tg-emoji> PvP Арена</strong><br>
+                    <span style="font-size: 12px; opacity: 0.7;">ставка 10-500</span>
+                </div>
+                <div class="pvp-bet-buttons" style="display: flex; gap: 8px;">
+                    <span class="bet-chip" data-bet="10">10<tg-emoji emoji-id="5436916549701234552">⭐</tg-emoji></span>
+                    <span class="bet-chip" data-bet="50">50<tg-emoji emoji-id="5436916549701234552">⭐</tg-emoji></span>
+                    <span class="bet-chip" data-bet="200">200<tg-emoji emoji-id="5436916549701234552">⭐</tg-emoji></span>
+                </div>
+            </div>
+            <button class="premium-btn" id="pvpFindBtn">
+                <tg-emoji emoji-id="5436916549701234552">🔍</tg-emoji> Найти соперника
+            </button>
+        </div>
+    </div>
+
+    <!-- ИНВЕНТАРЬ -->
+    <div id="inventoryScreen" class="screen">
+        <div class="content">
+            <div class="section-title">
+                <tg-emoji emoji-id="5436916549701234552">📦</tg-emoji> Мои NFT
+            </div>
+            <div class="inventory-grid" id="inventoryList"></div>
+        </div>
+    </div>
+
+    <!-- РЕФЕРАЛЫ -->
+    <div id="rewardsScreen" class="screen">
+        <div class="content">
+            <div class="section-title">
+                <tg-emoji emoji-id="5436916549701234552">👥</tg-emoji> Реферальная программа
+            </div>
+            <div class="referral-link">
+                <span id="refLink" style="font-size: 13px;">https://t.me/ChanceBot?start=ref_123</span>
+                <button id="copyRefBtn" style="background: var(--premium-blue); border: none; padding: 8px 16px; border-radius: 40px; color: white; cursor: pointer;">
+                    <tg-emoji emoji-id="5436916549701234552">📋</tg-emoji> Копировать
+                </button>
+            </div>
+            <div class="section-title">
+                <tg-emoji emoji-id="5436916549701234552">📋</tg-emoji> Задания
+            </div>
+            <div class="task-item" style="background: var(--glass-bg); backdrop-filter: blur(8px); padding: 16px; border-radius: 20px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+                <span><tg-emoji emoji-id="5436916549701234552">📺</tg-emoji> Подпишитесь на канал</span>
+                <span style="color: #FFD700;">+100<tg-emoji emoji-id="5436916549701234552">⭐</tg-emoji></span>
+            </div>
+            <div class="task-item" style="background: var(--glass-bg); backdrop-filter: blur(8px); padding: 16px; border-radius: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <span><tg-emoji emoji-id="5436916549701234552">👥</tg-emoji> Пригласите 5 друзей</span>
+                <span style="color: #FFD700;">+500<tg-emoji emoji-id="5436916549701234552">⭐</tg-emoji></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ЛИДЕРЫ -->
+    <div id="leadersScreen" class="screen">
+        <div class="content">
+            <div class="section-title">
+                <tg-emoji emoji-id="5436916549701234552">🏆</tg-emoji> Топ PvP игроков
+            </div>
+            <div id="leadersList"></div>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <div class="nav-item active" data-nav="main">
+            <div class="nav-icon"><tg-emoji emoji-id="5436916549701234552">🎲</tg-emoji></div>
+            <div>Кейсы</div>
+        </div>
+        <div class="nav-item" data-nav="inventory">
+            <div class="nav-icon"><tg-emoji emoji-id="5436916549701234552">🎒</tg-emoji></div>
+            <div>Инвентарь</div>
+        </div>
+        <div class="nav-item" data-nav="rewards">
+            <div class="nav-icon"><tg-emoji emoji-id="5436916549701234552">🎁</tg-emoji></div>
+            <div>Рефералы</div>
+        </div>
+        <div class="nav-item" data-nav="leaders">
+            <div class="nav-icon"><tg-emoji emoji-id="5436916549701234552">👑</tg-emoji></div>
+            <div>Лидеры</div>
+        </div>
+    </div>
+</div>
+
+<script src="https://telegram.org/js/telegram-web-app.js?56"></script>
+<script>
+    if(window.Telegram?.WebApp) {
+        Telegram.WebApp.ready();
+        Telegram.WebApp.expand();
+        Telegram.WebApp.setHeaderColor("bg_color");
+        Telegram.WebApp.setBackgroundColor("#0f111a");
+    }
+
+    let balance = 1250;
+    let inventory = [
+        { id: 1, name: "Dragon Knight", rarity: "Legendary", img: "🐉" },
+        { id: 2, name: "Cyber Cat", rarity: "Epic", img: "🐱" },
+        { id: 3, name: "Moon Ghost", rarity: "Rare", img: "👻" }
+    ];
+    const cases = [
+        { name: "Common", price: 10, img: "📦", rarity: "common" },
+        { name: "Rare", price: 50, img: "🎁", rarity: "rare" },
+        { name: "Epic", price: 200, img: "💎", rarity: "epic" }
+    ];
+    const leaders = [
+        { name: "Nikita", wins: 342, rating: 1850 },
+        { name: "kranziff", wins: 278, rating: 1720 },
+        { name: "Pavel", wins: 201, rating: 1630 }
+    ];
+
+    function renderCases() {
+        const grid = document.getElementById("casesGrid");
+        grid.innerHTML = cases.map(c => `
+            <div class="case-card" data-price="${c.price}" data-name="${c.name}">
+                <div class="case-img"><tg-emoji emoji-id="5436916549701234552">${c.img}</tg-emoji></div>
+                <div class="case-name">${c.name}</div>
+                <div class="case-price">${c.price} <tg-emoji emoji-id="5436916549701234552">⭐</tg-emoji></div>
+            </div>
+        `).join("");
+        document.querySelectorAll(".case-card").forEach(card => {
+            card.addEventListener("click", () => {
+                let price = parseInt(card.dataset.price);
+                if(balance >= price) {
+                    balance -= price;
+                    const randomNFT = { id: Date.now(), name: `NFT #${Math.floor(Math.random()*1000)}`, rarity: "Rare", img: "🎨" };
+                    inventory.push(randomNFT);
+                    if(window.Telegram?.WebApp) Telegram.WebApp.HapticFeedback.impactOccurred("medium");
+                    alert(`🎉 Открыт кейс! Получен: ${randomNFT.name}`);
+                    updateBalanceUI();
+                    renderInventory();
+                } else {
+                    alert(`❌ Не хватает ${price}⭐`);
+                }
+            });
+        });
+    }
+
+    function renderInventory() {
+        const container = document.getElementById("inventoryList");
+        if(!container) return;
+        if(inventory.length === 0) {
+            container.innerHTML = "<div style='text-align:center; padding:20px; opacity:0.6;'>У вас пока нет NFT</div>";
+            return;
+        }
+        container.innerHTML = inventory.map(nft => `
+            <div class="nft-card">
+                <div style="font-size: 42px;"><tg-emoji emoji-id="5436916549701234552">${nft.img}</tg-emoji></div>
+                <div><strong>${nft.name}</strong></div>
+                <div style="font-size: 11px; color: #FFD700;">${nft.rarity}</div>
+            </div>
+        `).join("");
+    }
+
+    function renderLeaders() {
+        const container = document.getElementById("leadersList");
+        if(!container) return;
+        container.innerHTML = leaders.map((l, idx) => `
+            <div class="leader-item">
+                <span><span style="color: #FFD700;">${idx+1}</span>. ${l.name}</span>
+                <span><tg-emoji emoji-id="5436916549701234552">🏆</tg-emoji> ${l.wins}</span>
+                <span><tg-emoji emoji-id="5436916549701234552">⭐</tg-emoji> ${l.rating}</span>
+            </div>
+        `).join("");
+    }
+
+    function updateBalanceUI() {
+        document.querySelector(".balance").innerHTML = `<tg-emoji emoji-id="5436916549701234552">⭐</tg-emoji> ${balance}`;
+    }
+
+    let freeTimerSeconds = 23*3600 + 45*60 + 12;
+    function updateFreeTimer() {
+        if(freeTimerSeconds <= 0) {
+            document.getElementById("freeTimer").innerHTML = "<tg-emoji emoji-id='5436916549701234552'>🔥</tg-emoji> ГОТОВО!";
+            return;
+        }
+        let h = Math.floor(freeTimerSeconds / 3600);
+        let m = Math.floor((freeTimerSeconds % 3600) / 60);
+        let s = freeTimerSeconds % 60;
+        document.getElementById("freeTimer").innerHTML = `<tg-emoji emoji-id="5436916549701234552">⏳</tg-emoji> ${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+        freeTimerSeconds--;
+        setTimeout(updateFreeTimer, 1000);
+    }
+
+    document.getElementById("pvpFindBtn")?.addEventListener("click", () => {
+        if(window.Telegram?.WebApp) Telegram.WebApp.HapticFeedback.impactOccurred("light");
+        alert("⚔️ Поиск соперника... (демо)\nВаша ставка 10⭐. Победа +18⭐");
+        balance += 18;
+        updateBalanceUI();
+        renderInventory();
+    });
+
+    document.querySelectorAll(".bet-chip").forEach(chip => {
+        chip.addEventListener("click", () => {
+            alert(`Выбрана ставка ${chip.innerText}`);
+        });
+    });
+
+    document.getElementById("copyRefBtn")?.addEventListener("click", () => {
+        navigator.clipboard.writeText("https://t.me/ChanceBot?start=ref_123");
+        alert("Ссылка скопирована");
+    });
+
+    const screens = {
+        main: document.getElementById('mainScreen'),
+        inventory: document.getElementById('inventoryScreen'),
+        rewards: document.getElementById('rewardsScreen'),
+        leaders: document.getElementById('leadersScreen')
+    };
+    function setActiveScreen(screenId) {
+        Object.keys(screens).forEach(id => screens[id].classList.remove('active'));
+        screens[screenId].classList.add('active');
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.classList.remove('active');
+            if(item.dataset.nav === screenId) item.classList.add('active');
+        });
+        if(window.Telegram?.WebApp) Telegram.WebApp.HapticFeedback.impactOccurred("light");
+    }
+    document.querySelectorAll('.nav-item').forEach(nav => {
+        nav.addEventListener('click', () => setActiveScreen(nav.dataset.nav));
+    });
+
+    renderCases();
+    renderInventory();
+    renderLeaders();
+    updateBalanceUI();
+    updateFreeTimer();
+</script>
+</body>
+</html>
